@@ -1,0 +1,56 @@
+body{
+    background-color: #0D1117;
+}
+p{
+    color: #6E7781
+}
+
+footer{
+padding-left: 78%;    
+padding-top: 36%;
+}
+
+header{
+    padding: 27px 0px 0px 36px;
+}
+.blankslate{
+    z-index:1000;
+    position: absolute;
+    top: 272px;
+    right: 192px;
+    width: 896px;
+    height: 157px;
+    background-color: #393F47;
+    box-sizing: border-box;
+    border-radius: 10px;}
+.pesquisa{
+    z-index:1000;
+    position: absolute;
+    width: 896px;
+    height: 157px;
+    background-color: #393F47;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+fieldset{
+    width: 895px;
+    height: 51px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    z-index:1000;
+    position: absolute;
+    border-color: #7D8590;
+}
+
+div{
+    display: flex;
+    gap: 20px ;
+}
+.baixo{
+    gap: 20px;
+    padding: 50px 0px 0px 0px
+}
+img{
+    width:15px;
+    height:15px;
+}
