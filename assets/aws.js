@@ -37,7 +37,7 @@ function filterStatusAWS(data) {
     jiraStatus.querySelector('img').setAttribute('src', status.icon)
 }
 
-fetch('https://feliz.onrender.com/aws')
-    .then((response) => response.json())
-    .then((data) => filterStatusAWS(data))
+// fetch('https://feliz.onrender.com/aws')
+//     .then((response) => response.json())
+//     .then((data) => filterStatusAWS(data))
 
