@@ -42,9 +42,9 @@ function filterServices(data) {
 
 function getStatus(status) {
     if (status === 'Normal Performance') {
-        return { text: 'All Clean', icon: './check-circle.svg' }
+        return { text: 'All Clean', icon: './assets/img/check-circle.svg' }
     } else {
-        return { text: 'Something went wrong', icon: './x-circle.svg' }
+        return { text: 'Something went wrong', icon: './assets/img/x-circle.svg' }
     }
 }
 
