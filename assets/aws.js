@@ -40,7 +40,7 @@ function filterStatusAWS(data) {
 }
 
 function createElementAWS(item, location) {
-    const list = document.querySelector('ul')
+    const list = document.querySelector('#aws-items')
 
     const newItem = document.createElement('li')
     newItem.classList.add("row")
@@ -110,14 +110,76 @@ function filterPicPayStatusAWS(data) {
     picpayStatusAWS.querySelector('img').setAttribute('src', status.icon)
 }
 
-fetch('https://feliz.onrender.com/aws')
-    .then((response) => response.json())
-    .then((data) => {
-        filterStatusAWS(data)
-        filterPicPayStatusAWS(data)
+// fetch('https://feliz.onrender.com/aws')
+//     .then((response) => response.json())
+//     .then((data) => {
+//         filterStatusAWS(data)
+//         filterPicPayStatusAWS(data)
+//     })
+
+
+// fetch('https://feliz.onrender.com/aws')
+// .then((response) => response.json())
+// .then((data) => filterServicesAWS(data))
+
+function createElementIssueAWS(issues) {
+
+    console.log('dentro')
+    console.log(issues)
+    // function that adds a item to the items list
+    const list = document.querySelector('#aws-issues-items')
+    console.log(list)
+
+    issues.map(
+        (issue) => {
+            const newItem = document.createElement('li')
+            newItem.classList.add("row")
+
+            const img = document.createElement('img')
+            newItem.appendChild(img)
+            const container = document.createElement('div')
+            const serviceName = document.createElement('p')
+            container.appendChild(serviceName)
+            const description = document.createElement('p')
+            container.appendChild(description)
+            newItem.appendChild(container)
+
+            img.setAttribute('src', './assets/img/x-circle.svg')
+            serviceName.innerHTML = issue.region + `<span>${issue.service}</span>`
+            description.innerHTML = `${issue.date.toLocaleString().substr(0, 10)} - ${issue.issue}`
+
+            console.log(newItem)
+            console.log(list)
+            list.appendChild(newItem)
+        }
+    )
+    
+}
+
+function yearIssuesAWS(data){
+    let list = []
+    data.map(
+        (item) => {
+
+            let region = item.region_name
+            let service = item.service_name
+            let issue = item.event_type_code
+            let date = new Date(item.launch_date*1000)
+
+            list.push({date, region, service, issue})
+        }
+    )
+    let listServer = list.filter((item) => {
+        return item.region === 'N. Virginia' || item.region === 'Sao Paulo' 
+    })
+    let listYear = listServer.filter((item) => {
+        return item.date > new Date("2023-01-01")
     })
 
+    console.log(listYear)
+    createElementIssueAWS(listYear)
+}
 
-fetch('https://feliz.onrender.com/aws')
-.then((response) => response.json())
-.then((data) => filterServicesAWS(data))
+fetch('https://di1pzre3hzbi4.cloudfront.net/services.json')
+    .then((response) => response.json())
+    .then((data) => yearIssuesAWS(data))
