@@ -57,7 +57,7 @@ function filterPicpayServicesOracle(data, locationNames) {
     let oracleStatus = document.querySelector
         ("#oracle .picpay span")
     let status = getStatus(picpayStatus)
-
+    
     oracleStatus.querySelector('p').textContent = status.text
     oracleStatus.querySelector('img').setAttribute('src', status.icon)
 }
@@ -85,35 +85,53 @@ function createElementOracle(item) {
     const description = document.createElement('p')
     container.appendChild(description)
     newItem.appendChild(container)
-
+    
     img.setAttribute('src', item.status.icon)
     service.innerHTML = item.name
     description.innerHTML = item.status.text
-
+    
     list.appendChild(newItem)
 }
 
-// fetch dos dados gerais do cloud da oracle e depois pode renderizar no método filterStatusOracle
-fetch('https://ocistatus.oraclecloud.com/api/v2/status.json')
-    .then((response) => response.json())
-    .then((data) => filterStatusOracle(data))
-    .catch((err) => console.log(err))
+setInterval(async () => {
 
-// lista que armazena os valores a serem buscados pelo fetch das regiões 
-let searchLocations = ['Brazil Southeast (Vinhedo)', 'Brazil East (Sao Paulo)']
+    let arr = []
 
-searchLocations.map(
-    (searchLocation) => {
+    // lista que armazena os valores a serem buscados pelo fetch das regiões 
+    let searchLocations = ['Brazil Southeast (Vinhedo)', 'Brazil East (Sao Paulo)']
+
+    // fetch dos dados gerais do cloud da oracle e depois pode renderizar no método filterStatusOracle
+    const orcale = fetch('https://ocistatus.oraclecloud.com/api/v2/status.json')
+        .then((response) => response.json())
+        .then((data) => filterStatusOracle(data))
+        .catch((err) => console.log(err))
+
+    const oracle2 = fetch('https://ocistatus.oraclecloud.com/api/v2/components.json')
+        .then((response) => response.json())
+        .then((data) => filterPicpayServicesOracle(data, searchLocations))
+        .catch((err) => console.log(err))
+        
+    searchLocations.map(
+        (searchLocation) => {
+            const data = fetch('https://ocistatus.oraclecloud.com/api/v2/components.json')
+                .then((response) => response.json())
+                .then((data) => filterComponentsOracle(data, searchLocation))
+                .then((data) => filterServicesOracle(data))
+                .catch((err) => console.log(err))
+
+            data.push(data)
+        }
         // fetch que busca cada região na lista, filtra e depois pode renderizar no método filterServicesOracle
-        fetch('https://ocistatus.oraclecloud.com/api/v2/components.json')
-            .then((response) => response.json())
-            .then((data) => filterComponentsOracle(data, searchLocation))
-            .then((data) => filterServicesOracle(data))
-            .catch((err) => console.log(err))
-    }
-)
+        )
 
-fetch('https://ocistatus.oraclecloud.com/api/v2/components.json')
-    .then((response) => response.json())
-    .then((data) => filterPicpayServicesOracle(data, searchLocations))
+        await orcale
+        await oracle2
+        Promise.all(arr).then((resolve) => {
+            console.log(resolve);
+        })
+
+        
+    
+}, 40000)
+
 
