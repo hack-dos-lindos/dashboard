@@ -1,6 +1,7 @@
 localStorage.setItem("lastUpdateJira", new Date())
 
 let timeJira = document.getElementById("jira-time")
+let timeJiraExtend = document.getElementById("jira-time-extend")
 
 function createElementJira(items, service) {
     // function that adds a item to the items list
@@ -98,7 +99,8 @@ function getStatusJira(status) {
     }
 }
 
-function lastUpdate() {
+function lastUpdateJira() {
+    console.log("hira");
     let data = localStorage.getItem("lastUpdateJira")
     data = new Date(data)
 
@@ -107,8 +109,9 @@ function lastUpdate() {
     let result = Math.abs(Math.round(differenceValue))
     
     timeJira.innerHTML = `Last update: ${result} ${result == 1 ? 'minutes' : 'minute'} ago` 
+    timeJiraExtend.innerHTML = `Last update: ${result} ${result == 1 ? 'minutes' : 'minute'} ago` 
 
-    localStorage.setItem("lastUpdateOracle", new Date())
+    localStorage.setItem("lastUpdateJira", new Date())
 }
 
 
@@ -141,7 +144,9 @@ function loaDataJira() {
     )
 }
 
-setInterval(() => {
+loaDataJira()
+
+setInterval(() => {-
     loaDataJira()
-    lastUpdate()
-}, 2000)
+    lastUpdateJira()
+}, 40000)

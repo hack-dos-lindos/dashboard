@@ -3,6 +3,7 @@ localStorage.setItem("lastUpdateOracle", new Date())
 // esse método pode ser usado para renderizar o status geral da Cloud da Oracle no lugar dos console.log()
 
 let timeOracle = document.getElementById("oracle-time")
+let timeOracleExtend = document.getElementById("oracle-time-extend")
 
 function filterStatusOracle(data) {
     // página é a OCI 
@@ -133,7 +134,7 @@ async function loadDataOracle() {
         })
 }
 
-function lastUpdate() {
+function lastUpdateOracle() {
     let data = localStorage.getItem("lastUpdateOracle")
     data = new Date(data)
 
@@ -142,6 +143,7 @@ function lastUpdate() {
     let result = Math.abs(Math.round(differenceValue))
     
     timeOracle.innerHTML = `Last update: ${result} ${result > 1 ? 'minutes' : 'minute'} ago` 
+    timeOracleExtend.innerHTML = `Last update: ${result} ${result > 1 ? 'minutes' : 'minute'} ago` 
 
     localStorage.setItem("lastUpdateOracle", new Date())
 }
@@ -149,6 +151,6 @@ function lastUpdate() {
 loadDataOracle()
 
 setInterval(async () => { 
-    // loadDataOracle()
-    lastUpdate()
+    loadDataOracle()
+    lastUpdateOracle()
 }, 40000)
