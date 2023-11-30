@@ -6,17 +6,30 @@ p{
 }
 
 footer{
-padding-left: 78%;    
-padding-top: 36%;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    padding-left: 71%;    
+    padding-top: 30%;
 }
-
+h1{
+    text-align: center;
+    color: #F6F8FA;
+    font-family: "inter";
+}
+h4{
+    text-align: center;
+    color: #F6F8FA;
+    font-family: "inter";
+}
 header{
-    padding: 27px 0px 0px 36px;
+    padding: 8px 0px 0px 36px;
 }
 .blankslate{
     z-index:1000;
     position: absolute;
-    top: 272px;
+    top: 242px;
     right: 192px;
     width: 896px;
     height: 157px;
@@ -24,16 +37,26 @@ header{
     box-sizing: border-box;
     border-radius: 10px;}
 .pesquisa{
+    display: flex;
+    gap: 10px;
+    padding: 0px 0px 0px 10px;
+    justify-content: left;
+    align-items: center;
     z-index:1000;
     position: absolute;
-    width: 896px;
-    height: 157px;
-    background-color: #393F47;
+    width: 549px;
+    height: 32px;
+    top: 150px;
+    right: 366px;
+    background-color: #010409;
     box-sizing: border-box;
     border-radius: 10px;
 }
 fieldset{
-    width: 895px;
+    display: flex;
+    gap: 30px;
+    padding: 0px 0px 0px 20px;
+    width: 893px;
     height: 51px;
     box-sizing: border-box;
     border-radius: 10px;
@@ -42,15 +65,20 @@ fieldset{
     border-color: #7D8590;
 }
 
-div{
-    display: flex;
-    gap: 20px ;
-}
+
 .baixo{
-    gap: 20px;
-    padding: 50px 0px 0px 0px
+    display: flex;
+    gap: 10px ;
+    padding: 50px 0px 0px 25px;
+    justify-content: left;
+    align-items: center;
 }
-img{
+img{ 
     width:15px;
     height:15px;
+}
+.texto{
+    justify-content: left;
+    padding: 0px 0px 100px 25px;
+    font-size: 11px;
 }
