@@ -116,6 +116,21 @@ function filterPicPayStatusAWS(data) {
 }
 
 function loadDataAws() {
+    fetch('https://feliz.onrender.com/aws')
+    .then((response) => response.json())
+    .then((data) => {
+        filterStatusAWS(data)
+        filterPicPayStatusAWS(data)
+
+    })
+
+    fetch('https://feliz.onrender.com/aws')
+    .then((response) => response.json())
+    .then((data) => filterServicesAWS(data))
+
+}
+
+function lastUpdateAws() {
     let data = localStorage.getItem("lastUpdateAws")
     data = new Date(data)
 
@@ -129,40 +144,17 @@ function loadDataAws() {
     localStorage.setItem("lastUpdateAws", new Date())
 }
 
-function lastUpdateAws() {
-    fetch('https://feliz.onrender.com/aws')
-    .then((response) => response.json())
-    .then((data) => {
-        filterStatusAWS(data)
-        filterPicPayStatusAWS(data)
-    })
-}
-
 loadDataAws()
 
 setInterval(() => {
     loadDataAws()
     lastUpdateAws()
 }, 120000)
-// fetch('https://feliz.onrender.com/aws')
-//     .then((response) => response.json())
-//     .then((data) => {
-//         filterStatusAWS(data)
-//         filterPicPayStatusAWS(data)
-//     })
-
-
-// fetch('https://feliz.onrender.com/aws')
-// .then((response) => response.json())
-// .then((data) => filterServicesAWS(data))
 
 function createElementIssueAWS(issues) {
 
-    console.log('dentro')
-    console.log(issues)
     // function that adds a item to the items list
     const list = document.querySelector('#aws-issues-items')
-    console.log(list)
 
     issues.map(
         (issue) => {
@@ -182,8 +174,6 @@ function createElementIssueAWS(issues) {
             serviceName.innerHTML = issue.region + `<span>${issue.service}</span>`
             description.innerHTML = `${issue.date.toLocaleString().substr(0, 10)} - ${issue.issue}`
 
-            console.log(newItem)
-            console.log(list)
             list.appendChild(newItem)
         }
     )
@@ -210,7 +200,6 @@ function yearIssuesAWS(data){
         return item.date > new Date("2023-01-01")
     })
 
-    console.log(listYear)
     createElementIssueAWS(listYear)
 }
 

@@ -100,7 +100,6 @@ function getStatusJira(status) {
 }
 
 function lastUpdateJira() {
-    console.log("hira");
     let data = localStorage.getItem("lastUpdateJira")
     data = new Date(data)
 
@@ -119,9 +118,6 @@ const servicesJira = ['jira-software', 'jira-service-management', 'jira-work-man
 const picpayServicesJira = ['jira-software','jira-service-management','confluence', 'jira-align']
 
 function loaDataJira() {
-    filterPicpayServicesJira(picpayServicesJira)
-    filterGeneralServicesJira(servicesJira)
-
     servicesJira.map(
         (service) => {
             fetch(`https://${service}.status.atlassian.com/api/v2/components.json`)
@@ -142,11 +138,14 @@ function loaDataJira() {
                 .catch((err) => console.log(err))
         }
     )
+
+    filterPicpayServicesJira(picpayServicesJira)
+    filterGeneralServicesJira(servicesJira)
 }
 
 loaDataJira()
 
-setInterval(() => {-
+setInterval(() => {
     loaDataJira()
     lastUpdateJira()
 }, 40000)
