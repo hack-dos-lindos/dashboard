@@ -1,3 +1,8 @@
+localStorage.setItem("lastUpdateAws", new Date())
+
+let timeAws = document.getElementById("aws-time")
+let timeAwsExtend = document.getElementById("aws-time-extend")
+
 function getStatusAWS(status) {
     if (status === 'Operational' || status === true) {
         return { text: 'All Clean', icon: './assets/img/check-circle.svg' }
@@ -110,6 +115,35 @@ function filterPicPayStatusAWS(data) {
     picpayStatusAWS.querySelector('img').setAttribute('src', status.icon)
 }
 
+function loadDataAws() {
+    let data = localStorage.getItem("lastUpdateAws")
+    data = new Date(data)
+
+    var differenceValue = (data.getTime() - new Date().getTime()) / 1000;
+    differenceValue /= 60;
+    let result = Math.abs(Math.round(differenceValue))
+    
+    timeAws.innerHTML = `Last update: ${result} ${result == 1 ? 'minutes' : 'minute'} ago` 
+    timeAwsExtend.innerHTML = `Last update: ${result} ${result == 1 ? 'minutes' : 'minute'} ago` 
+
+    localStorage.setItem("lastUpdateAws", new Date())
+}
+
+function lastUpdateAws() {
+    fetch('https://feliz.onrender.com/aws')
+    .then((response) => response.json())
+    .then((data) => {
+        filterStatusAWS(data)
+        filterPicPayStatusAWS(data)
+    })
+}
+
+loadDataAws()
+
+setInterval(() => {
+    loadDataAws()
+    lastUpdateAws()
+}, 120000)
 // fetch('https://feliz.onrender.com/aws')
 //     .then((response) => response.json())
 //     .then((data) => {

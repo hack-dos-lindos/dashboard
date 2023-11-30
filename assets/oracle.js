@@ -1,6 +1,10 @@
 // ORACLE
-
+localStorage.setItem("lastUpdateOracle", new Date())
 // esse método pode ser usado para renderizar o status geral da Cloud da Oracle no lugar dos console.log()
+
+let timeOracle = document.getElementById("oracle-time")
+let timeOracleExtend = document.getElementById("oracle-time-extend")
+
 function filterStatusOracle(data) {
     // página é a OCI 
     let page = data['page']['name']
@@ -93,8 +97,7 @@ function createElementOracle(item) {
     list.appendChild(newItem)
 }
 
-setInterval(async () => {
-
+async function loadDataOracle() {
     let arr = []
 
     // lista que armazena os valores a serem buscados pelo fetch das regiões 
@@ -129,9 +132,25 @@ setInterval(async () => {
         Promise.all(arr).then((resolve) => {
             console.log(resolve);
         })
+}
 
-        
+function lastUpdateOracle() {
+    let data = localStorage.getItem("lastUpdateOracle")
+    data = new Date(data)
+
+    var differenceValue = (data.getTime() - new Date().getTime()) / 1000;
+    differenceValue /= 60;
+    let result = Math.abs(Math.round(differenceValue))
     
+    timeOracle.innerHTML = `Last update: ${result} ${result > 1 ? 'minutes' : 'minute'} ago` 
+    timeOracleExtend.innerHTML = `Last update: ${result} ${result > 1 ? 'minutes' : 'minute'} ago` 
+
+    localStorage.setItem("lastUpdateOracle", new Date())
+}
+
+loadDataOracle()
+
+setInterval(async () => { 
+    loadDataOracle()
+    lastUpdateOracle()
 }, 40000)
-
-

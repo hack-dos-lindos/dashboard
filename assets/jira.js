@@ -1,3 +1,8 @@
+localStorage.setItem("lastUpdateJira", new Date())
+
+let timeJira = document.getElementById("jira-time")
+let timeJiraExtend = document.getElementById("jira-time-extend")
+
 function createElementJira(items, service) {
     // function that adds a item to the items list
     const list = document.querySelector('ul')
@@ -94,29 +99,54 @@ function getStatusJira(status) {
     }
 }
 
+function lastUpdateJira() {
+    console.log("hira");
+    let data = localStorage.getItem("lastUpdateJira")
+    data = new Date(data)
+
+    var differenceValue = (data.getTime() - new Date().getTime()) / 1000;
+    differenceValue /= 60;
+    let result = Math.abs(Math.round(differenceValue))
+    
+    timeJira.innerHTML = `Last update: ${result} ${result == 1 ? 'minutes' : 'minute'} ago` 
+    timeJiraExtend.innerHTML = `Last update: ${result} ${result == 1 ? 'minutes' : 'minute'} ago` 
+
+    localStorage.setItem("lastUpdateJira", new Date())
+}
+
+
 const servicesJira = ['jira-software', 'jira-service-management', 'jira-work-management', 'jira-product-discovery', 'confluence', 'jira-align']
 const picpayServicesJira = ['jira-software','jira-service-management','confluence', 'jira-align']
 
-servicesJira.map(
-    (service) => {
-        fetch(`https://${service}.status.atlassian.com/api/v2/components.json`)
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.hasOwnProperty('components')) {
-                    let componentsData = data.components.map(component => {
-                        return {
-                            name: component.name,
-                            status: getStatusJira(component.status)
-                        }
-                    })
-                    createElementJira(componentsData, service)
-                } else {
-                    console.log('Error while searching')
-                }
-            })
-            .catch((err) => console.log(err))
-    }
-)
+function loaDataJira() {
+    filterPicpayServicesJira(picpayServicesJira)
+    filterGeneralServicesJira(servicesJira)
 
-filterPicpayServicesJira(picpayServicesJira)
-filterGeneralServicesJira(servicesJira)
+    servicesJira.map(
+        (service) => {
+            fetch(`https://${service}.status.atlassian.com/api/v2/components.json`)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.hasOwnProperty('components')) {
+                        let componentsData = data.components.map(component => {
+                            return {
+                                name: component.name,
+                                status: getStatusJira(component.status)
+                            }
+                        })
+                        createElementJira(componentsData, service)
+                    } else {
+                        console.log('Error while searching')
+                    }
+                })
+                .catch((err) => console.log(err))
+        }
+    )
+}
+
+loaDataJira()
+
+setInterval(() => {-
+    loaDataJira()
+    lastUpdateJira()
+}, 40000)
